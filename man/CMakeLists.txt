@@ -1,0 +1,36 @@
+cmake_minimum_required(VERSION 3.5)
+project(man LANGUAGES CXX C)
+set(PACKAGE_AUTHOR "Ake Hedman, the VSCP Project")
+
+# --- System Libraries ---
+include(GNUInstallDirs)
+
+set(PANDOCCOMMAND_FOUND 0)
+find_program(PANDOCCOMMAND_PATH
+  NAMES pandoc
+  DOC "Path to Pandoc processor. Used to generate man pages from Markdown."
+)
+
+if(NOT EXISTS ${PANDOCCOMMAND_PATH})
+  message(WARNING "Pandoc processor not found, man pages will not be generated. Install pandoc or use the CMAKE_PROGRAM_PATH variable.")
+else()
+  set(PANDOCCOMMAND_FOUND 1)
+endif()
+
+# if (NOT ${PANDOCCOMMAND_FOUND})
+#     message("* * * PanDoc was not found * * *")
+# endif()
+
+# man pages
+if (${PANDOCCOMMAND_FOUND})
+    add_custom_command(
+        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/vscpl2drv-udp.1
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/vscpl2drv-udp.1.md
+        COMMAND ${PANDOCCOMMAND_PATH} -s -t man
+                ${CMAKE_CURRENT_SOURCE_DIR}/vscpl2drv-udp.1.md
+                -o ${CMAKE_CURRENT_BINARY_DIR}/vscpl2drv-udp.1
+    )
+    add_custom_target(man ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/vscpl2drv-udp.1)
+    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/vscpl2drv-udp.1
+            DESTINATION ${CMAKE_INSTALL_MANDIR}/man1/)
+endif()
