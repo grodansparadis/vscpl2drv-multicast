@@ -1,0 +1,11 @@
+{
+  "interface": "udp://239.192.0.1:33333",
+  "flags": 2,
+  "multicast": { "interface-address": "127.0.0.1" },
+  "security": {
+    "encryption": "none",
+    "key": "",
+    "hmac": ""
+  },
+  "logging": { "console-enable": false }
+}
