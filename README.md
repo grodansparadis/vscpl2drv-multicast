@@ -68,8 +68,10 @@ on Windows), and a separate UDP log collector. The UDP logging settings
 are independent from multicast event transport.
 
 An installed sample is provided as `multicast.json`. Configure the daemon's
-Level II driver entry with the path to `libvscpl2drv-multicast.so` (or the
-platform equivalent), the JSON configuration path, and a unique driver GUID.
+Level II driver entry with the path to
+`libvscpl2drv-multicast-<year>.<month>.<patch>.so` (or the platform
+equivalent), the JSON configuration path, and a unique driver GUID. The
+filename version comes from `src/version.h`.
 
 ## Build and test
 
@@ -87,6 +89,22 @@ in the VSCP Level II driver directory and the sample JSON in the shared data
 directory. On Linux, install the driver into `/var/lib/vscp/drivers/level2`
 according to your VSCP daemon setup.
 
+## Continuous integration
+
+GitHub Actions builds on every push, pull request, and manual workflow
+dispatch:
+
+| Platform | Build target | Tests |
+|----------|-------------|-------|
+| Linux | Native x64 | Build and CTest |
+| macOS | GitHub-hosted macOS runner | Build and CTest |
+| Windows | Native UCRT64 toolchain | Build and CTest |
+| Raspberry Pi 32-bit | ARMHF / ARMv7, Debian Bookworm under QEMU | Build |
+| Raspberry Pi 64-bit | ARM64, Debian Bookworm under QEMU | Build |
+
+The Raspberry Pi jobs compile for the target ARM architectures under QEMU;
+runtime integration tests run on the native Linux, macOS, and Windows runners.
+
 ## Standalone peer
 
 `vscp-multicast-peer` uses the same JSON configuration, so it is useful for
@@ -101,8 +119,9 @@ manual send/receive tests without running a VSCP daemon:
 Use `flags: 1` in the receive config and `flags: 2` in the send config. Peer
 diagnostics are printed to stderr; received events are printed as JSON lines.
 Set `logging.console-enable` to `false` to keep stdout JSON-only. The peer can
-also load a built driver library with `--driver /path/to/libvscpl2drv-multicast.so`
-to test the exported Level II API.
+also load a built driver library with `--driver
+/path/to/libvscpl2drv-multicast-<year>.<month>.<patch>.so` to test the exported
+Level II API.
 
 ## License
 

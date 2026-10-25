@@ -8,8 +8,9 @@ vscpl2drv-multicast - VSCP Level II IPv4 multicast driver
 
 # DESCRIPTION
 
-The shared library libvscpl2drv-multicast.so exports the standard VSCP Level II
-driver API. It sends and receives VSCP binary events using IPv4 multicast.
+The shared library
+libvscpl2drv-multicast-\fIyear.month.patch\fR.so exports the standard VSCP Level
+II driver API. It sends and receives VSCP binary events using IPv4 multicast.
 The receiver binds the configured UDP port and joins the configured multicast
 group. IPv6 multicast is not supported.
 
