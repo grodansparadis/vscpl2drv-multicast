@@ -7,6 +7,7 @@ tagged, rename **Unreleased** to the version and date, and start a new
 
 ## Unreleased
 
+- Man pages: vscpl2drv-multicast(1) now lists every configuration setting and has an example; new vscp-multicast-peer(1). The man pages are built with pandoc in CMake; the old scripts are removed
 - Fixed versioning (033a41c)
 - Initial checkin of driver (b225661)
 - Initial plan (bc23d68)

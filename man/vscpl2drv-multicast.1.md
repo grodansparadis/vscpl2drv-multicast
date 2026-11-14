@@ -69,9 +69,22 @@ configuration is installed as
   strings. By default all events are accepted.
 
 **logging**
-: Console, rotating-file, syslog (except on Windows) and UDP log output are
-  supported. UDP logging is separate from multicast event transport.
+:   Logging of the driver. All keys are optional.
 
+    **console-enable**, **console-level**, **console-pattern**
+    :   Log to standard error: on/off, level (**trace**, **debug**,
+        **info**, **warn**, **error**, **critical**, **off**) and spdlog
+        pattern.
+
+    **file-enable**, **file-log-level**, **file-log-path**, **file-log-pattern**, **file-log-max-size**, **file-log-max-files**
+    :   Log to a rotating file: on/off, level, path, pattern, size of a
+        file in bytes and number of files kept.
+
+    **syslog-enable-log**, **syslog-log-level**, **syslog-ident**
+    :   Log to syslog (not on Windows).
+
+    **udp-enable-log**, **udp-log-level**, **udp-pattern**, **udp-host**, **udp-port**
+    :   Send log lines as UDP datagrams to a log collector.
 **write**
 : Reserved; runtime configuration changes are not implemented.
 
@@ -79,6 +92,60 @@ Multicast does not guarantee delivery or ordering and provides no
 acknowledgements or replay protection. Encryption without HMAC provides
 confidentiality only. Keep configuration and key files private to the driver
 user.
+
+# FILES
+
+*/usr/share/vscpl2drv-multicast/multicast.json*
+:   Sample configuration file.
+
+*/var/lib/vscp/drivers/level2/libvscpl2drv-multicast.so*
+:   The driver.
+
+# EXAMPLE
+
+A configuration file (the installed sample):
+
+    {
+      "write": false,
+      "interface": "udp://239.192.0.1:33333",
+      "multicast": {
+        "interface-address": "",
+        "ttl": 1,
+        "loopback": true,
+        "reuse-address": true
+      },
+      "flags": 0,
+      "security": {
+        "key": "",
+        "hmac": "",
+        "encryption": "none"
+      },
+      "logging": {
+        "console-enable": true,
+        "console-level": "info",
+        "console-pattern": "[vscpl2drv-multicast] [%^%l%$] %v",
+        "file-enable": false,
+        "file-log-level": "info",
+        "file-log-path": "/var/log/vscp/vscpl2drv-multicast.log",
+        "file-log-pattern": "[vscpl2drv-multicast] [%l] %v",
+        "file-log-max-size": 5242880,
+        "file-log-max-files": 7,
+        "syslog-enable-log": false,
+        "syslog-log-level": "info",
+        "syslog-ident": "vscpl2drv-multicast",
+        "udp-enable-log": false,
+        "udp-log-level": "info",
+        "udp-pattern": "[vscpl2drv-multicast] [%l] %v",
+        "udp-host": "127.0.0.1",
+        "udp-port": 9999
+      },
+      "filter": {
+        "in-filter": "0,0,0,-",
+        "in-mask": "0,0,0,-",
+        "out-filter": "0,0,0,-",
+        "out-mask": "0,0,0,-"
+      }
+    }
 
 # TESTING
 
