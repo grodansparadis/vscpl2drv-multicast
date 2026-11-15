@@ -7,6 +7,7 @@ tagged, rename **Unreleased** to the version and date, and start a new
 
 ## Unreleased
 
+- Build against the latest vscp master (d75d4f5c6)
 - Man pages: vscpl2drv-multicast(1) now lists every configuration setting and has an example; new vscp-multicast-peer(1). The man pages are built with pandoc in CMake; the old scripts are removed
 - Fixed versioning (033a41c)
 - Initial checkin of driver (b225661)
