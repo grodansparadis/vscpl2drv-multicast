@@ -223,11 +223,20 @@ FetchContent_MakeAvailable(nlohmann_json)
 # Misc defines
 #add_definitions(-DDEBUG_TRACE)
 
+
+# vscphelper.cpp logs through the helper logging functions, which are built
+# into each target. On Windows they are exported, not imported.
+if(WIN32)
+  add_compile_definitions(VSCP_HELPER_LOGGING_EXPORTS VSCP_HELPER_LOGGING_BACKEND_EXPORTS)
+endif()
+
 set(VSCP_COMMON_SOURCES
   ${vscp_SOURCE_DIR}/src/vscp/common/guid.h
   ${vscp_SOURCE_DIR}/src/vscp/common/guid.cpp
   ${vscp_SOURCE_DIR}/src/vscp/common/vscphelper.h
   ${vscp_SOURCE_DIR}/src/vscp/common/vscphelper.cpp
+  ${vscp_SOURCE_DIR}/src/vscp/common/vscphelperlogging.cpp
+  ${vscp_SOURCE_DIR}/src/vscp/common/vscphelperlogging-forward.cpp
   ${vscp_SOURCE_DIR}/src/common/crc.c
   ${vscp_SOURCE_DIR}/src/common/crc8.c
   ${vscp_SOURCE_DIR}/src/common/vscp-aes.c
